@@ -6,6 +6,7 @@
   <title>Gerador de QR Code WhatsApp</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
+    /* Seus estilos permanecem os mesmos */
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
     
     * {
@@ -235,7 +236,7 @@
       <div class="mt-6 fade-in">
         <button
           id="helpButton"
-          onclick="window.open('{{ $json.ajuda }}', '_blank')"
+          onclick="window.open('https://faq.whatsapp.com/', '_blank')"
           class="btn-secondary w-full py-4 px-6 bg-white text-gray-700 font-medium rounded-xl border border-gray-300 hover:bg-gray-50"
         >
           <div class="flex items-center justify-center space-x-3">
@@ -299,11 +300,16 @@
       buttonIcon.innerHTML = '<div class="spinner"></div>';
 
       try {
-        const endpoint = 'https://webhook.fluxodigitaltech.com.br/webhook/35d48067-eea0-4b28-9d64-7643e8387c67'; 
-
-        const res = await fetch(endpoint, {
+        // Usando um proxy CORS para contornar o problema
+        const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+        const targetUrl = 'https://webhook.fluxodigitaltech.com.br/webhook/35d48067-eea0-4b28-9d64-7643e8387c67';
+        
+        const res = await fetch(proxyUrl + targetUrl, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest'
+          },
           body: JSON.stringify({ instance: name })
         });
 
